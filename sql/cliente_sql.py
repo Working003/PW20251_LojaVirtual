@@ -30,7 +30,7 @@ FROM Cliente
 WHERE id = ?;
 """
 
-GET_CLIENTE_BY_PAGE = """
+GET_CLIENTES_BY_PAGE = """
 SELECT id, nome, cpf, telefone, email, data_nascimento
 FROM Cliente
 ORDER BY nome ASC
