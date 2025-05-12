@@ -26,7 +26,7 @@ SELECT id, nome, cpf, email, telefone, data_nascimento
 FROM Cliente
 WHERE id = ?;
 """
-GET_CLIENTE_BY_PAGE = """
+GET_CLIENTES_BY_PAGE = """
 SELECT id, nome, cpf, email, telefone, data_nascimento
 FROM Cliente
 ORDER BY nome ASC
