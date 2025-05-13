@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set titulo_pagina = "clientes"%}
+{% block conteudo %}
+<table class="table table-striped aling-middle">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+            <th>Data Nasc.</th>
+        </tr>
+    </thead>
+</table>
+<tbody>
+    {% for c in clientes %}
+        <tr>
+            <td>{{c.id}}</td>
+            <td>{{c.nome}}</td>
+            <td>{{c.cpf}}</td>
+            <td>{{c.email}}</td>
+            <td>{{c.telefone}}</td>
+            <td>{{c.data_nasc('%d/%m%y')}}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}
