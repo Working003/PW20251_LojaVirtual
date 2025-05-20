@@ -1,5 +1,5 @@
 -- Comando INSERT para inserir 10 clientes na tabela clientes contendo nome, cpf, email, telefone e data_nascimento
-INSERT INTO clientes (nome, cpf, email, telefone, data_nascimento) VALUES
+INSERT INTO cliente (nome, cpf, email, telefone, data_nascimento) VALUES
 ('João Silva', '123.456.789-00', 'joaosilva@email.com', '11987654321', '1990-01-01'),
 ('Maria Oliveira', '987.654.321-00', 'mariaoliveria@email.com', '11987654322', '1985-05-15'),
 ('Carlos Santos', '456.789.123-00', 'calossantos@email.com', '11987654323', '1992-03-20'),
