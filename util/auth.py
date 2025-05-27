@@ -1,27 +1,41 @@
 from fastapi import HTTPException, Request
 from passlib.context import CryptContext
 
+from models.usuario import Usuario
+
 SECRET_KEY="cae3def7c5c8f5c07613a742c1c5435076ccf0777c259796ad1653c0fd5dfdd7"
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+criptografia = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+db_usuarios = {
+    "admin@email.com": {
+        "nome": "Admnistrador do Sistema",
+        "email": "admin@email.com",
+        "senha_hashed": criptografia.hash("admin123"),
+        "perfis": ["admin", "user"]
+    },
+    "usuario@email.com": {
+        "nome": "Usuário do Sistema",
+        "email": "usuario@email.com",
+        "senha_hashed": criptografia.hash("user123"),
+        "perfis": ["user"]
+    }
+}
 
-def authenticate_user(username: str, password: str):
-    # user = fake_users_db.get(username)
-    # if not user or not verify_password(password, user["hashed_password"]):
-    #     return None
-    # return user
-    pass
+def verificar_senha(senha_normal: str, senha_hashed: str) -> bool:
+    return criptografia.verify(senha_normal, senha_hashed)
 
-def get_current_user(request: Request):
-    username = request.session.get("user")
-    if not username:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    
-    # user = fake_users_db.get(username)
-    # if not user:
-    #     raise HTTPException(status_code=401, detail="User not found")
-    
-    # return User(username=user["username"], email=user["email"])
+def autenticar_usuario(email: str, senha: str):
+    email = db_usuarios.get(email)
+    if not email or not verificar_senha(senha, email["senha_hashed"]):
+        return None
+    return email
+
+def obter_usuario_logado(request: Request):
+    usuario = request.session.get("usuario")
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Não autenticado")
+    usuario = db_usuarios.get(usuario)
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Usuário não encontrado")
+    return Usuario(nome=usuario["nome"], email=usuario["email"], senha_hash=usuario["senha_hashed"])
