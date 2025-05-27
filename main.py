@@ -20,7 +20,6 @@ criar_tabela_enderecos()
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
-criptografia = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def format_currency_br(value, currency='BRL', locale='pt_BR'):
     return format_currency(value, currency, locale=locale)
@@ -75,6 +74,7 @@ async def login(
     usuario = autenticar_usuario(email, senha)
     if not usuario:
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
+    usuario["senha_hashed"] = None  # Remove senha do dicionário
     request.session["usuario"] = usuario
     return RedirectResponse(url="/", status_code=303)
 
