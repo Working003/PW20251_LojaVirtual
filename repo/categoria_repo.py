@@ -10,7 +10,7 @@ def criar_tabela_categorias() -> bool:
         return (cursor.rowcount > 0)
 
 def inserir_categoria(categoria: Categoria) -> Categoria:
-    with obter_conexao as conexao:
+    with obter_conexao() as conexao:
         cursor = conexao.cursor()
         cursor.execute(INSERT_CATEGORIA, 
             (categoria.nome))
@@ -18,20 +18,20 @@ def inserir_categoria(categoria: Categoria) -> Categoria:
         return categoria
 
 def atualizar_categoria(categoria: Categoria) -> bool:
-    with obter_conexao as conexao:
+    with obter_conexao() as conexao:
         cursor = conexao.cursor()
         cursor.execute(UPDATE_CATEGORIA, 
             (categoria.nome, categoria.id))
         return (cursor.rowcount > 0)
 
 def excluir_categoria(id: int) -> bool:
-    with obter_conexao as conexao:
+    with obter_conexao() as conexao:
         cursor = conexao.cursor()
         cursor.execute(DELETE_CATEGORIA, (id,))
         return (cursor.rowcount > 0)
 
 def obter_categoria_por_id(id: int) -> Optional[Categoria]:
-    with obter_conexao as conexao:
+    with obter_conexao() as conexao:
         cursor = conexao.cursor()
         cursor.execute(GET_CATEGORIA_BY_ID, (id,))
         resultado = cursor.fetchone()
@@ -42,7 +42,7 @@ def obter_categoria_por_id(id: int) -> Optional[Categoria]:
     return None
 
 def obter_categorias_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Categoria]:
-    with obter_conexao as conexao:
+    with obter_conexao() as conexao:
         limite = tamanho_pagina
         offset = (numero_pagina - 1) * tamanho_pagina
         cursor = conexao.cursor()
