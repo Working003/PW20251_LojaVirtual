@@ -4,7 +4,6 @@ from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from babel.numbers import format_currency
 from starlette.middleware.sessions import SessionMiddleware
-from passlib.context import CryptContext
 
 from repo.categoria_repo import criar_tabela_categorias, obter_categorias_por_pagina
 from repo.cliente_repo import criar_tabela_clientes, obter_clientes_por_pagina
@@ -85,3 +84,4 @@ async def logout(request: Request):
 
 if __name__ == "__main__":
     uvicorn.run(app=app, port=8000, reload=True)
+
